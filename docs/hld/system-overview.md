@@ -30,15 +30,15 @@ When the user opens the app for the first time, they will be prompted to enter a
 
 Once a username is entered, the chat interface is shown. The interface includes a scrollable message area, message input field, and send button. The message input field contains options to allow sending of files and emojis.
 
-### 3. Sending Messages
+#### 3. Sending Messages
 
 Users can send messages by pressing Enter or clicking the Send button. Messages are displayed in the chat window along with the messages of all users. These messages are saved in the database so that new users can view past messages.
 
-### 4. Real-time Broadcasting
+#### 4. Real-time Broadcasting
 
 Messages of other users can also be seen in the chat window as they send it in real-time.
 
-### 5. New User Notification
+#### 5. New User Notification
 
 When a new user joins, it will appear in the chat window displaying the new user's username.
 
