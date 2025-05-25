@@ -1,10 +1,13 @@
 <script setup lang="ts">
-const username = ref();
+import multiavatar from "@multiavatar/multiavatar/esm";
+
+const username = ref("");
+const avatarSvg = computed(() => multiavatar(username.value));
 </script>
 
 <template>
   <div
-    class="bg-background flex h-full w-full flex-col items-center justify-center gap-40"
+    class="bg-background flex h-full w-full flex-col items-center justify-center gap-10"
   >
     <div class="flex flex-col items-center">
       <p
@@ -21,6 +24,8 @@ const username = ref();
       </p>
       <p class="text-xl text-white">where everyone's invited to chit-chat</p>
     </div>
+
+    <div class="h-32 w-32 brightness-90" v-html="avatarSvg"></div>
 
     <div class="flex flex-col items-center">
       <p class="text-grey-light mb-4 text-sm">

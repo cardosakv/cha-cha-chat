@@ -12,6 +12,7 @@
     "format": "prettier --write \"{components,pages,plugins,middleware,layouts,composables,assets}/**/*.{js,jsx,ts,tsx,vue,html,css,scss,json,md}\""
   },
   "dependencies": {
+    "@multiavatar/multiavatar": "^1.0.7",
     "nuxt": "^3.17.4",
     "nuxt-mdi": "2.1.1",
     "vue": "^3.5.14",
