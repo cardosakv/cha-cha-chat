@@ -1,8 +1,8 @@
-import { defineNuxtConfig } from 'nuxt/config'
+import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
-  compatibilityDate: '2025-05-15',
+  compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/eslint'],
-  css: ['~/assets/css/main.css'],
-})
+  modules: ["@nuxtjs/tailwindcss", "@nuxt/eslint", "nuxt-mdi"],
+  css: ["~/assets/css/main.css"]
+});
