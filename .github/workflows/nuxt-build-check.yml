@@ -10,6 +10,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: apps/frontend
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -19,8 +23,11 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Install pnpm
+        run: npm install -g pnpm
+
       - name: Install dependencies
-        uses: pnpm install
+        run: pnpm install
 
       - name: Build app
-        uses: pnpm build
+        run: pnpm build
