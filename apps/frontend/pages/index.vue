@@ -1,8 +1,26 @@
 <script setup lang="ts">
 import multiavatar from "@multiavatar/multiavatar/esm";
+import { KEY_USERNAME } from "~/shared/constants";
 
-const username = ref("");
-const avatarSvg = computed(() => multiavatar(username.value));
+useHead({ title: "Welcome to Cha-Cha-Chat" });
+definePageMeta({ middleware: "auth" });
+
+const inputUsername = ref("");
+const avatarSvg = computed(() => multiavatar(inputUsername.value));
+
+const { enter } = useMagicKeys();
+
+whenever(enter, () => {
+  registerUser();
+});
+
+function registerUser() {
+  const username = useCookie(KEY_USERNAME);
+  username.value = inputUsername.value;
+
+  const { push } = useRouter();
+  push("/chat");
+}
 </script>
 
 <template>
@@ -31,8 +49,13 @@ const avatarSvg = computed(() => multiavatar(username.value));
       <p class="text-grey-light mb-4 text-sm">
         Got something to say? Type a username and jump in.
       </p>
-      <AppInput class="mb-4 w-3/4" v-model="username" />
-      <AppButton class="w-3/4" label="Join the Chat" />
+      <AppInput class="mb-4 w-3/4" v-model="inputUsername" />
+      <AppButton
+        class="w-3/4"
+        label="Join the Chat"
+        @click="registerUser"
+        ref="joinButton"
+      />
     </div>
   </div>
 </template>
