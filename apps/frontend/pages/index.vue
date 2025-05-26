@@ -24,13 +24,9 @@ function registerUser() {
 </script>
 
 <template>
-  <div
-    class="bg-background flex h-full w-full flex-col items-center justify-center gap-10"
-  >
+  <div class="flex h-full w-full flex-col items-center justify-center gap-10">
     <div class="flex flex-col items-center">
-      <p
-        class="flex flex-col sm:flex-row items-center text-4xl font-bold text-white mb-2"
-      >
+      <p class="flex flex-col sm:flex-row items-center text-4xl font-bold text-white mb-2">
         <span class="flex items-center"> Welcome to&nbsp; </span>
         <span class="flex items-center">
           <span class="text-primary">Cha</span>
@@ -46,16 +42,9 @@ function registerUser() {
     <div class="h-32 w-32 brightness-90" v-html="avatarSvg"></div>
 
     <div class="flex flex-col items-center">
-      <p class="text-grey-light mb-4 text-sm">
-        Got something to say? Type a username and jump in.
-      </p>
+      <p class="text-grey-light mb-4 text-sm">Got something to say? Type a username and jump in.</p>
       <AppInput class="mb-4 w-3/4" v-model="inputUsername" />
-      <AppButton
-        class="w-3/4"
-        label="Join the Chat"
-        @click="registerUser"
-        ref="joinButton"
-      />
+      <AppButton class="w-3/4" label="Join the Chat" @click="registerUser" ref="joinButton" />
     </div>
   </div>
 </template>
