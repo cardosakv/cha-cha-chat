@@ -27,12 +27,7 @@ jobs:
         run: npm install --global vercel@latest
 
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes \
-          --environment=production \
-          --token=${{ secrets.VERCEL_TOKEN }} \
-          --org=${{ secrets.VERCEL_ORG_ID }} \
-          --project=${{ secrets.VERCEL_PROJECT_ID }} \
-          --cwd=apps/frontend
+        run: vercel pull --yes --environment=preview --cwd=apps/frontend --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
