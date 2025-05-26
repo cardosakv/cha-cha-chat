@@ -1,8 +1,6 @@
 export default {
   trailingComma: "none",
   endOfLine: "auto",
-  plugins: [
-    "prettier-plugin-tailwindcss",
-    "prettier-plugin-organize-attributes"
-  ]
+  printWidth: 800,
+  plugins: ["prettier-plugin-tailwindcss", "prettier-plugin-organize-attributes"]
 };
