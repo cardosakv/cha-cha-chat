@@ -9,7 +9,7 @@ on:
     branches: [master]
 
 jobs:
-  deploy-production:
+  deploy-preview:
     runs-on: ubuntu-latest
 
     defaults:
@@ -24,13 +24,8 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Enable Corepack and set pnpm version
-        run: |
-          corepack enable
-          corepack prepare pnpm@9.0.4 --activate
-
-      - name: Install dependencies
-        run: pnpm install
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.1.0
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
