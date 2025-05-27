@@ -1,13 +1,13 @@
 <template>
-  <div class="h-screen w-screen bg-background flex flex-col">
-    <div class="flex h-12 border-b-1 border-b-grey-dark items-center pl-4">
+  <div class="bg-background flex h-screen w-screen flex-col">
+    <div class="border-b-grey-dark flex h-12 items-center border-b-1 pl-4">
       <img class="h-4" src="../assets/images/logo.png" />
     </div>
-    <div class="flex flex-1 w-full">
-      <div class="flex flex-col flex-1">
+    <div class="flex w-full flex-1">
+      <div class="flex flex-1 flex-col justify-end p-4">
         <slot name="main"></slot>
       </div>
-      <div class="flex flex-col w-64 border-l-1 border-l-grey-dark">
+      <div class="border-l-grey-dark flex w-64 flex-col border-l-1 p-4">
         <slot name="sidebar"></slot>
       </div>
     </div>

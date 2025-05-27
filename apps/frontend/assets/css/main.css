@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 @import "tailwindcss";
+@import "vue3-emoji-picker/css";
 
 @theme {
   --font-sans: Outfit, "sans-serif";

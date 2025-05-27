@@ -1,10 +1,15 @@
 <script setup lang="ts">
 useHead({ title: "Cha-Cha-Chat" });
-definePageMeta({ middleware: "auth", layout: "chat" });
+definePageMeta({ middleware: "auth" });
 </script>
 
 <template>
-  <div class="bg-background flex-1 h-screen flex flex-col items-center justify-center gap-10">
-    <span class="text-white">INITIAL CHAT</span>
-  </div>
+  <NuxtLayout name="chat">
+    <template #main>
+      <ChatBox />
+    </template>
+    <template #sidebar>
+      <div class="h-40 w-40 text-white">TEST</div>
+    </template>
+  </NuxtLayout>
 </template>
