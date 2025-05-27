@@ -7,7 +7,7 @@ const props = defineProps({
 
 <template>
   <div :class="['flex rounded-xl p-2 text-sm text-white', { 'bg-primary': props.isOwn, 'bg-grey-dark': !props.isOwn }]">
-    <img :src="props.media" />
+    <img :src="props.media" alt="Image sent by user" />
   </div>
 </template>
 "
