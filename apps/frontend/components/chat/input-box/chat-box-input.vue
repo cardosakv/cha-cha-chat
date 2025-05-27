@@ -13,9 +13,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="bg-grey-dark w-full rounded-sm p-1.5 pb-0.5 hover:brightness-120">
+  <div class="bg-grey-dark mr-2 ml-2 w-full rounded-sm p-1.5 pb-0.5 hover:brightness-120">
     <textarea
-      class="placeholder-grey-medium box-border max-h-20 w-full resize-none overflow-y-auto text-left text-sm font-light text-white outline-none [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-600 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-400"
+      class="placeholder-grey-medium custom-scroll box-border max-h-20 w-full resize-none overflow-y-auto text-left text-sm font-light text-white outline-none"
       v-model="message"
       rows="1"
       placeholder="Aa"

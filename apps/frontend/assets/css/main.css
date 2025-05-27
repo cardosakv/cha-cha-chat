@@ -12,3 +12,13 @@
   --color-grey-medium: #494e53;
   --color-grey-light: #94a1b2;
 }
+
+@layer utilities {
+  .custom-scroll {
+    @apply [&::-webkit-scrollbar-thumb]:bg-grey-medium [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent;
+  }
+
+  a {
+    @apply text-primary hover:brightness-120 active:brightness-90;
+  }
+}
