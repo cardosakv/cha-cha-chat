@@ -19,6 +19,6 @@ function addEmoji(emoji: EmojiExt) {
 <template>
   <ChatBoxIconButton icon="mdiFile" @click="emit('select-file')" />
   <ChatBoxEmojiPicker @select="addEmoji" />
-  <ChatBoxInput v-model="message" />
+  <ChatBoxInput v-model="message" @keydown-enter="emit('send')" />
   <ChatBoxIconButton icon="mdiSend" @click="emit('send')" />
 </template>

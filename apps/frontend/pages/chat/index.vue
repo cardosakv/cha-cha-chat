@@ -7,7 +7,7 @@ definePageMeta({ middleware: "auth" });
   <NuxtLayout name="chat">
     <template #main>
       <div class="flex min-h-0 flex-1 flex-col pb-5">
-        <div class="bg-background custom-scroll flex flex-1 flex-col-reverse items-center gap-2 overflow-y-scroll pr-2">
+        <div class="custom-scroll flex flex-1 flex-col-reverse items-center gap-2 overflow-y-scroll pr-2">
           <ChatMessage :is-own="true" text="What you gonna huh" />
           <ChatMessage
             :is-own="false"
@@ -29,7 +29,10 @@ definePageMeta({ middleware: "auth" });
       </div>
     </template>
     <template #sidebar>
-      <div class="h-40 w-40 text-white">TEST</div>
+      <div class="flex min-h-0 flex-col">
+        <UsersYou username="khxlvin" />
+        <UsersAll :usernames="['shiella', 'joeyy', 'warlyy']" />
+      </div>
     </template>
   </NuxtLayout>
 </template>

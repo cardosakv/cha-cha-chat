@@ -8,6 +8,7 @@ export default defineNuxtConfig({
   components: [
     { path: "~/components", pathPrefix: false },
     { path: "~/components/chat/input-box", pathPrefix: false },
-    { path: "~/components/chat/message", pathPrefix: false }
+    { path: "~/components/chat/message", pathPrefix: false },
+    { path: "~/components/sidebar", pathPrefix: false }
   ]
 });

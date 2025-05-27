@@ -2,6 +2,10 @@
 import { ref, onMounted } from "vue";
 import { useTextarea } from "~/composables/use-textarea";
 
+const emit = defineEmits<{
+  (e: "keydownEnter"): any;
+}>();
+
 const message = defineModel<string>();
 const textareaRef = ref<HTMLTextAreaElement | null>(null);
 
@@ -21,6 +25,7 @@ onMounted(() => {
       placeholder="Aa"
       ref="textareaRef"
       @input="adjustHeight"
+      @keydown.enter="emit('keydownEnter')"
     />
   </div>
 </template>
