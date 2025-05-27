@@ -17,10 +17,8 @@ function addEmoji(emoji: EmojiExt) {
 </script>
 
 <template>
-  <div class="flex items-end justify-between">
-    <ChatBoxIconButton icon="mdiFile" @click="emit('select-file')" />
-    <ChatBoxEmojiPicker @select="addEmoji" />
-    <ChatBoxInput class="mr-2 ml-2" v-model="message" />
-    <ChatBoxIconButton icon="mdiSend" @click="emit('send')" />
-  </div>
+  <ChatBoxIconButton icon="mdiFile" @click="emit('select-file')" />
+  <ChatBoxEmojiPicker @select="addEmoji" />
+  <ChatBoxInput v-model="message" />
+  <ChatBoxIconButton icon="mdiSend" @click="emit('send')" />
 </template>
