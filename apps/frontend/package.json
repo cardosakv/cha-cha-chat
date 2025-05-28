@@ -12,6 +12,8 @@
     "format": "prettier --write \"{components,pages,plugins,middleware,layouts,composables,assets}/**/*.{js,jsx,ts,tsx,vue,html,css,scss,json,md}\""
   },
   "dependencies": {
+    "@cha-cha-chat/dto": "workspace:*",
+    "@cha-cha-chat/types": "workspace:*",
     "@multiavatar/multiavatar": "^1.0.7",
     "@vueuse/core": "^13.2.0",
     "@vueuse/nuxt": "^13.2.0",
