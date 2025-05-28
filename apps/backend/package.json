@@ -11,6 +11,8 @@
     "build": "nest build"
   },
   "dependencies": {
+    "@cha-cha-chat/dto": "workspace:*",
+    "@cha-cha-chat/types": "workspace:*",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",

@@ -1,3 +1,5 @@
+import { MessageDto } from '@cha-cha-chat/dto';
+import { SocketEvents } from '@cha-cha-chat/types';
 import {
   ConnectedSocket,
   MessageBody,
@@ -8,7 +10,6 @@ import {
 } from '@nestjs/websockets';
 import cookie from 'cookie';
 import { Socket } from 'socket.io';
-import { MessageDto } from 'src/message/message.dto';
 
 /**
  * Websocket gateway for the chat.
@@ -33,10 +34,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.online.add(username);
 
     // Inform all this user is online
-    client.broadcast.emit('user.online', { user: username });
+    client.broadcast.emit(SocketEvents.USERS_ONLINE, { user: username });
 
     // Inform client of all online users
-    client.emit('users.online', { users: this.online });
+    client.emit(SocketEvents.USER_ONLINE, { users: this.online });
   }
 
   /**
@@ -55,16 +56,16 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.online.delete(username);
 
     // Inform all this user is offline
-    client.broadcast.emit('user.offline', { user: username });
+    client.broadcast.emit(SocketEvents.USER_OFFLINE, { user: username });
   }
 
   /**
    * Handles when user sends a message in the chat.
    */
-  @SubscribeMessage('message.send')
+  @SubscribeMessage(SocketEvents.MESSAGE_SEND)
   handleMessage(@MessageBody() message: MessageDto, @ConnectedSocket() client: Socket) {
     if (!message.content && !message.attachment) return;
 
-    client.emit('message.receive', message);
+    client.emit(SocketEvents.MESSAGE_RECEIVE, message);
   }
 }
