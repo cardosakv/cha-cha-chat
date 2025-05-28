@@ -4,3 +4,8 @@ export interface MessageDto {
   timestamp: Date;
   attachment: string;
 }
+
+export interface UserDto {
+  username: string;
+  joinedAt: Date;
+}
