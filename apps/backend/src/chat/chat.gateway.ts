@@ -15,7 +15,7 @@ import { MessageDto } from 'src/message/message.dto';
  */
 @WebSocketGateway({ cors: { origin: '*' } })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  private online = new Set<string>();
+  private readonly online = new Set<string>();
 
   /**
    * Handles when user connects to the chat.
