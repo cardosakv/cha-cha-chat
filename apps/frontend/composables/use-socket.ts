@@ -1,0 +1,47 @@
+import { io, Socket } from "socket.io-client";
+import type { MessageDto } from "@cha-cha-chat/dto";
+import type { SocketEvent } from "@cha-cha-chat/types";
+
+export const useSocket = (url: string) => {
+  const socket = ref<Socket>();
+
+  function connect() {
+    try {
+      socket.value = io(url, { withCredentials: true });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  function disconnect() {
+    try {
+      socket.value?.disconnect();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  function emit(event: SocketEvent, message: MessageDto) {
+    try {
+      socket.value?.emit(event, message);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  function on(event: SocketEvent, handler: (payload: any) => void) {
+    try {
+      socket.value?.on(event, handler);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  return {
+    socket,
+    connect,
+    disconnect,
+    emit,
+    on
+  };
+};

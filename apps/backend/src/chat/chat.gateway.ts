@@ -1,3 +1,5 @@
+import { MessageDto } from '@cha-cha-chat/dto';
+import { SocketEvent } from '@cha-cha-chat/types';
 import {
   ConnectedSocket,
   MessageBody,
@@ -6,14 +8,17 @@ import {
   SubscribeMessage,
   WebSocketGateway,
 } from '@nestjs/websockets';
-import cookie from 'cookie';
 import { Socket } from 'socket.io';
-import { MessageDto } from 'src/message/message.dto';
 
 /**
  * Websocket gateway for the chat.
  */
-@WebSocketGateway({ cors: { origin: '*' } })
+@WebSocketGateway({
+  cors: {
+    origin: 'http://localhost:3000',
+    credentials: true,
+  },
+})
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly online = new Set<string>();
 
@@ -22,21 +27,19 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
    */
   handleConnection(client: Socket) {
     const cookieRaw = client.handshake.headers.cookie;
-
     if (!cookieRaw) return client.disconnect();
 
-    const cookieJson = cookie.parse(cookieRaw);
-    const username = cookieJson.username;
-
+    const username = cookieRaw.split('=')[1];
     if (!username) return client.disconnect();
 
     this.online.add(username);
 
     // Inform all this user is online
-    client.broadcast.emit('user.online', { user: username });
+    client.broadcast.emit(SocketEvent.USER_ONLINE, { user: username });
 
     // Inform client of all online users
-    client.emit('users.online', { users: this.online });
+    const onlineUsers = [...this.online].filter((user) => user != username);
+    client.emit(SocketEvent.USERS_ONLINE, { users: onlineUsers });
   }
 
   /**
@@ -44,27 +47,25 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
    */
   handleDisconnect(client: Socket) {
     const cookieRaw = client.handshake.headers.cookie;
-
     if (!cookieRaw) return;
 
-    const cookieJson = cookie.parse(cookieRaw);
-    const username = cookieJson.username;
-
+    const username = cookieRaw.split('=')[1];
     if (!username) return;
 
     this.online.delete(username);
 
     // Inform all this user is offline
-    client.broadcast.emit('user.offline', { user: username });
+    client.broadcast.emit(SocketEvent.USER_OFFLINE, { user: username });
   }
 
   /**
    * Handles when user sends a message in the chat.
    */
-  @SubscribeMessage('message.send')
+  @SubscribeMessage(SocketEvent.MESSAGE_SEND)
   handleMessage(@MessageBody() message: MessageDto, @ConnectedSocket() client: Socket) {
     if (!message.content && !message.attachment) return;
 
-    client.emit('message.receive', message);
+    client.broadcast.emit(SocketEvent.MESSAGE_RECEIVE, message);
+    client.emit(SocketEvent.MESSAGE_RECEIVE, message);
   }
 }

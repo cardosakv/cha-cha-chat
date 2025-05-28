@@ -4,8 +4,12 @@ export const useTextarea = (textareaRef: Ref<HTMLTextAreaElement | null>, messag
   function adjustHeight() {
     const el = textareaRef.value;
     if (el) {
-      el.style.height = "auto";
-      el.style.height = el.scrollHeight + "px";
+      if (message.value?.trim()) {
+        el.style.height = "auto";
+        el.style.height = el.scrollHeight + "px";
+      } else {
+        el.style.height = "20px";
+      }
     }
   }
 
