@@ -12,7 +12,10 @@ const formatted = computed(() => "<p>" + Autolinker.link(props.text ?? "") + "</
 <template>
   <div
     v-html="formatted"
-    :class="['flex rounded-xl p-2 text-sm text-white', { 'bg-primary': props.isOwn, 'bg-grey-dark': !props.isOwn }]"
+    :class="[
+      'flex rounded-xl p-2 text-sm wrap-anywhere text-white',
+      { 'bg-primary': props.isOwn, 'bg-grey-dark': !props.isOwn }
+    ]"
   ></div>
 </template>
 "

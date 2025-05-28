@@ -11,6 +11,13 @@ const textareaRef = ref<HTMLTextAreaElement | null>(null);
 
 const { adjustHeight } = useTextarea(textareaRef, message);
 
+function onKeyDown(event: KeyboardEvent) {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    emit("keydownEnter");
+  }
+}
+
 onMounted(() => {
   adjustHeight();
 });
@@ -25,7 +32,7 @@ onMounted(() => {
       placeholder="Aa"
       ref="textareaRef"
       @input="adjustHeight"
-      @keydown.enter="emit('keydownEnter')"
+      @keydown="onKeyDown"
     />
   </div>
 </template>

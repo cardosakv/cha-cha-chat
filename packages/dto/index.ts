@@ -1,8 +1,8 @@
 export interface MessageDto {
   username: string;
-  content: string;
+  content?: string;
   timestamp: Date;
-  attachment: string;
+  attachment?: string;
 }
 
 export interface UserDto {
