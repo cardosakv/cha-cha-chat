@@ -1,5 +1,5 @@
 import { MessageDto } from '@cha-cha-chat/dto';
-import { SocketEvents } from '@cha-cha-chat/types';
+import { SocketEvent } from '@cha-cha-chat/types';
 import {
   ConnectedSocket,
   MessageBody,
@@ -34,10 +34,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.online.add(username);
 
     // Inform all this user is online
-    client.broadcast.emit(SocketEvents.USERS_ONLINE, { user: username });
+    client.broadcast.emit(SocketEvent.USERS_ONLINE, { user: username });
 
     // Inform client of all online users
-    client.emit(SocketEvents.USER_ONLINE, { users: this.online });
+    client.emit(SocketEvent.USER_ONLINE, { users: this.online });
   }
 
   /**
@@ -56,16 +56,16 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.online.delete(username);
 
     // Inform all this user is offline
-    client.broadcast.emit(SocketEvents.USER_OFFLINE, { user: username });
+    client.broadcast.emit(SocketEvent.USER_OFFLINE, { user: username });
   }
 
   /**
    * Handles when user sends a message in the chat.
    */
-  @SubscribeMessage(SocketEvents.MESSAGE_SEND)
+  @SubscribeMessage(SocketEvent.MESSAGE_SEND)
   handleMessage(@MessageBody() message: MessageDto, @ConnectedSocket() client: Socket) {
     if (!message.content && !message.attachment) return;
 
-    client.emit(SocketEvents.MESSAGE_RECEIVE, message);
+    client.emit(SocketEvent.MESSAGE_RECEIVE, message);
   }
 }
