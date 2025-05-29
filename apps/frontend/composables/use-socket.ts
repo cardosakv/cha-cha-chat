@@ -5,9 +5,9 @@ import type { SocketEvent } from "@cha-cha-chat/types";
 export const useSocket = (url: string) => {
   const socket = ref<Socket>();
 
-  function connect() {
+  function connect(query: any) {
     try {
-      socket.value = io(url, { withCredentials: true });
+      socket.value = io(url, { query: query });
     } catch (err) {
       console.error(err);
     }
