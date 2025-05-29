@@ -20,13 +20,15 @@ function selectEmoji(emoji: EmojiExt) {
 <template>
   <div class="relative">
     <ChatBoxIconButton icon="mdiEmoticon" @click="togglePicker" />
-    <EmojiPicker
-      class="absolute bottom-full left-0 z-10 mb-2"
-      v-if="isPickerShown"
-      theme="dark"
-      :native="true"
-      :disable-skin-tones="true"
-      @select="selectEmoji"
-    />
+    <ClientOnly>
+      <EmojiPicker
+        class="absolute bottom-full left-0 z-10 mb-2"
+        v-if="isPickerShown"
+        theme="dark"
+        :native="true"
+        :disable-skin-tones="true"
+        @select="selectEmoji"
+      />
+    </ClientOnly>
   </div>
 </template>

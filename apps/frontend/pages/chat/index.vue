@@ -6,7 +6,8 @@ import { KEY_USERNAME } from "~/shared/constants";
 useHead({ title: "Cha-Cha-Chat" });
 definePageMeta({ middleware: "auth" });
 
-const socket = useSocket("http://localhost:3001");
+const config = useRuntimeConfig();
+const socket = useSocket(config.public.apiBaseUrl);
 
 const currentUser = useCookie(KEY_USERNAME);
 const onlineUsers = ref<string[]>();

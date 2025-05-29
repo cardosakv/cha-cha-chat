@@ -10,5 +10,10 @@ export default defineNuxtConfig({
     { path: "~/components/chat/input-box", pathPrefix: false },
     { path: "~/components/chat/message", pathPrefix: false },
     { path: "~/components/sidebar", pathPrefix: false }
-  ]
+  ],
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: process.env.NUXT_API_BASE_URL ?? ""
+    }
+  }
 });
