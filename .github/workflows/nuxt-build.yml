@@ -1,4 +1,4 @@
-name: Nuxt Build Check
+name: Nuxt Build
 
 on:
   push:
