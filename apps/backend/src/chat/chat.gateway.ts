@@ -17,6 +17,8 @@ import { Socket } from 'socket.io';
   cors: {
     origin: process.env.FRONTEND_URL,
     credentials: true,
+    secure: true,
+    sameSite: 'none',
   },
 })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
