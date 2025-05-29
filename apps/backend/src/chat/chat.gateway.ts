@@ -27,6 +27,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
    */
   handleConnection(client: Socket) {
     const cookieRaw = client.handshake.headers.cookie;
+    console.log(cookieRaw);
     if (!cookieRaw) return client.disconnect();
 
     const username = cookieRaw.split('=')[1];
