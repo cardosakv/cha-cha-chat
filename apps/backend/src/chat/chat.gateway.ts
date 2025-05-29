@@ -13,12 +13,7 @@ import { Socket } from 'socket.io';
 /**
  * Websocket gateway for the chat.
  */
-@WebSocketGateway({
-  cors: {
-    origin: 'http://localhost:3000',
-    credentials: true,
-  },
-})
+@WebSocketGateway({ cors: { origin: '*' } })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly online = new Set<string>();
 
@@ -26,10 +21,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
    * Handles when user connects to the chat.
    */
   handleConnection(client: Socket) {
-    const cookieRaw = client.handshake.headers.cookie;
-    if (!cookieRaw) return client.disconnect();
-
-    const username = cookieRaw.split('=')[1];
+    const username = client.handshake.query.username as string;
     if (!username) return client.disconnect();
 
     this.online.add(username);
@@ -46,11 +38,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
    * Handles when user disconnects to the chat.
    */
   handleDisconnect(client: Socket) {
-    const cookieRaw = client.handshake.headers.cookie;
-    if (!cookieRaw) return;
-
-    const username = cookieRaw.split('=')[1];
-    if (!username) return;
+    const username = client.handshake.query.username as string;
+    if (!username) return client.disconnect();
 
     this.online.delete(username);
 

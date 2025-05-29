@@ -46,7 +46,7 @@ function shouldShowIcon(index: number): boolean {
 }
 
 onMounted(() => {
-  socket.connect();
+  socket.connect({ username: currentUser.value });
 
   socket.on(SocketEvent.USERS_ONLINE, (payload: { users: string[] }) => {
     onlineUsers.value = payload.users;
