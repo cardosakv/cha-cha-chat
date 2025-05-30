@@ -13,18 +13,26 @@ const socket = useSocket(config.public.apiBaseUrl);
 
 const currentUser = useCookie(KEY_USERNAME);
 const onlineUsers = ref<string[]>();
-const inputMessage = ref<string>("");
 const messages = ref<WsMessage[]>([]);
 
-function sendMessage() {
+function sendMessageText(inputMessage: string) {
   const message: MessageDto = {
     username: currentUser.value ?? "",
-    content: inputMessage.value.trim(),
+    content: inputMessage.trim(),
     timestamp: Date.now()
   };
 
   socket.emit(SocketEvent.MESSAGE_SEND, message);
-  inputMessage.value = "";
+}
+
+function sendMessageImage(imageBase64: string) {
+  const message: MessageDto = {
+    username: currentUser.value ?? "",
+    attachment: imageBase64,
+    timestamp: Date.now()
+  };
+
+  socket.emit(SocketEvent.MESSAGE_SEND, message);
 }
 
 function shouldShowUsername(index: number): boolean {
@@ -143,7 +151,7 @@ onMounted(() => {
         </div>
       </div>
       <div class="flex items-end justify-between">
-        <ChatBox v-model="inputMessage" @send="sendMessage" />
+        <ChatBox @send-text="sendMessageText" @send-file="sendMessageImage" />
       </div>
     </template>
     <template #sidebar>
