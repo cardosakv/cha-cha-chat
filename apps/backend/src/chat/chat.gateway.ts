@@ -1,4 +1,4 @@
-import { MessageDto } from '@cha-cha-chat/dto';
+import { MessageDto, UserJoinDto, UserOnlineOfflineDto, UsersOnlineDto } from '@cha-cha-chat/dto';
 import { SocketEvent } from '@cha-cha-chat/types';
 import {
   ConnectedSocket,
@@ -27,11 +27,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.online.add(username);
 
     // Inform all this user is online
-    client.broadcast.emit(SocketEvent.USER_ONLINE, { user: username });
+    const userOnline: UserOnlineOfflineDto = { username: username };
+    client.broadcast.emit(SocketEvent.USER_ONLINE, userOnline);
 
     // Inform client of all online users
-    const onlineUsers = [...this.online].filter((user) => user != username);
-    client.emit(SocketEvent.USERS_ONLINE, { users: onlineUsers });
+    const usersOnline: UsersOnlineDto = { usernames: [...this.online].filter((user) => user != username) };
+    client.emit(SocketEvent.USERS_ONLINE, usersOnline);
   }
 
   /**
@@ -44,7 +45,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.online.delete(username);
 
     // Inform all this user is offline
-    client.broadcast.emit(SocketEvent.USER_OFFLINE, { user: username });
+    const userOffline: UserOnlineOfflineDto = { username: username };
+    client.broadcast.emit(SocketEvent.USER_OFFLINE, userOffline);
   }
 
   /**
@@ -56,5 +58,16 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     client.broadcast.emit(SocketEvent.MESSAGE_RECEIVE, message);
     client.emit(SocketEvent.MESSAGE_RECEIVE, message);
+  }
+
+  /**
+   * Handles when a user joins the chat.
+   */
+  @SubscribeMessage(SocketEvent.USER_JOIN)
+  handleUserJoin(@MessageBody() user: UserJoinDto, @ConnectedSocket() client: Socket) {
+    if (!user) return;
+    if (!user.username) return;
+
+    client.broadcast.emit(SocketEvent.USER_JOIN, user);
   }
 }

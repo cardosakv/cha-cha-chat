@@ -19,6 +19,6 @@
   }
 
   a {
-    @apply text-primary hover:brightness-120 active:brightness-90;
+    @apply text-secondary hover:brightness-120 active:brightness-90;
   }
 }

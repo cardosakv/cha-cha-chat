@@ -1,11 +1,24 @@
 export interface MessageDto {
   username: string;
   content?: string;
-  timestamp: Date;
+  timestamp: number;
   attachment?: string;
 }
 
 export interface UserDto {
   username: string;
-  joinedAt: Date;
+  joinedAt: number;
+}
+
+export interface UserOnlineOfflineDto {
+  username: string;
+}
+
+export interface UsersOnlineDto {
+  usernames: string[];
+}
+
+export interface UserJoinDto {
+  username: string;
+  timestamp: number;
 }
