@@ -1,11 +1,11 @@
 <script setup lang="ts">
 const props = defineProps({
-  datetime: Date
+  timestamp: Number
 });
 
-const formatted = computed(() => formatDate(props.datetime));
+const formatted = computed(() => formatDividerDate(props.timestamp));
 </script>
 
 <template>
-  <div class="text-grey-medium text-xs font-bold">{{ formatted }}</div>
+  <div class="text-grey-medium mt-3 text-xs font-bold">{{ formatted }}</div>
 </template>

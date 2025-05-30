@@ -1,5 +1,5 @@
 import { io, Socket } from "socket.io-client";
-import type { MessageDto } from "@cha-cha-chat/dto";
+import type { MessageDto, UserOnlineOfflineDto } from "@cha-cha-chat/dto";
 import type { SocketEvent } from "@cha-cha-chat/types";
 
 export const useSocket = (url: string) => {
@@ -21,7 +21,7 @@ export const useSocket = (url: string) => {
     }
   }
 
-  function emit(event: SocketEvent, message: MessageDto) {
+  function emit(event: SocketEvent, message: MessageDto | UserOnlineOfflineDto) {
     try {
       socket.value?.emit(event, message);
     } catch (err) {

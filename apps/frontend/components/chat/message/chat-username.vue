@@ -5,5 +5,5 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="text-grey-medium ml-2 text-sm font-light" v-cloak>{{ props.username }}</div>
+  <div class="text-grey-medium mt-2 mb-1 ml-2 text-xs font-light" v-cloak>{{ props.username }}</div>
 </template>
