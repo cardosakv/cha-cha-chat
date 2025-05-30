@@ -1,4 +1,4 @@
-import type { MessageDto, UserDto, UserJoinDto, UserOnlineOfflineDto } from "@cha-cha-chat/dto";
+import type { MessageDto, UserJoinDto } from "@cha-cha-chat/dto";
 import type { WsMessageType } from "./ws-message-type";
 
 export interface WsMessage {

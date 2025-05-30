@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { timestamp } from "@vueuse/core";
-
 const props = defineProps({
   username: String,
   timestamp: Number
