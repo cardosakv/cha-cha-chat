@@ -65,7 +65,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
    */
   @SubscribeMessage(SocketEvent.USER_JOIN)
   handleUserJoin(@MessageBody() user: UserJoinDto, @ConnectedSocket() client: Socket) {
-    if (!user || !user.username) return;
+    if (!user) return;
+    if (!user.username) return;
 
     client.broadcast.emit(SocketEvent.USER_JOIN, user);
   }
