@@ -1,5 +1,6 @@
 export function parseDataUrl(dataUrl: string): { mime: string; base64: string } | null {
-  const match = dataUrl.match(/^data:(.*?);base64,(.*)$/);
+  const regex = /^data:(.*?);base64,(.*)$/;
+  const match = regex.exec(dataUrl);
   if (!match) return null;
 
   return {
