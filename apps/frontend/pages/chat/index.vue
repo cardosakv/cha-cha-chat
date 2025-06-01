@@ -79,18 +79,7 @@ function shouldShowTimeDivider(index: number): boolean {
   return currentTimestamp - previousTimestamp > TIME_DIVIDER_GAP_MILLIS;
 }
 
-onMounted(() => {
-  const userOnline: UserOnlineOfflineDto = {
-    username: currentUser.value as string
-  };
-  socket.connect(userOnline);
-
-  const userJoin: UserJoinDto = {
-    username: currentUser.value as string,
-    timestamp: Date.now()
-  };
-  socket.emit(SocketEvent.USER_JOIN, userJoin);
-
+function setupSocketEvents() {
   socket.on(SocketEvent.USERS_ONLINE, (payload: UsersOnlineDto) => {
     onlineUsers.value = payload.usernames;
   });
@@ -122,6 +111,21 @@ onMounted(() => {
 
     messages.value?.unshift(message);
   });
+}
+
+function connectSocket() {
+  const userJoin: UserJoinDto = {
+    username: currentUser.value as string,
+    timestamp: Date.now()
+  };
+
+  socket.connect(userJoin);
+  socket.emit(SocketEvent.USER_JOIN, userJoin);
+}
+
+onMounted(() => {
+  connectSocket();
+  setupSocketEvents();
 });
 </script>
 
