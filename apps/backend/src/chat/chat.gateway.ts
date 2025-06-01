@@ -1,4 +1,4 @@
-import { MessageDto, UserJoinDto, UserOnlineOfflineDto, UsersOnlineDto } from '@cha-cha-chat/dto';
+import { MessageDto, UserDto, UserJoinDto, UserOnlineOfflineDto, UsersOnlineDto } from '@cha-cha-chat/dto';
 import { SocketEvent } from '@cha-cha-chat/types';
 import {
   ConnectedSocket,
@@ -11,6 +11,7 @@ import {
 import { User } from 'generated/prisma';
 import { Socket } from 'socket.io';
 import { UserService } from '../user/user.service';
+import { MessageService } from 'src/message/message.service';
 
 /**
  * Websocket gateway for the chat.
@@ -19,7 +20,10 @@ import { UserService } from '../user/user.service';
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly online = new Set<string>();
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private messageService: MessageService,
+  ) {}
 
   /**
    * Handles when user connects to the chat.
@@ -31,12 +35,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const userExists = await this.userService.exists(username);
 
     if (!userExists) {
-      const createUser: User = {
+      const user: UserDto = {
         username: username,
-        joinedAt: new Date(),
+        joinedAt: Date.now(),
       };
 
-      const createdUser = await this.userService.create(createUser);
+      const createdUser = await this.userService.create(user);
       if (!createdUser) return client.disconnect();
     }
 
@@ -69,8 +73,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
    * Handles when user sends a message in the chat.
    */
   @SubscribeMessage(SocketEvent.MESSAGE_SEND)
-  handleMessage(@MessageBody() message: MessageDto, @ConnectedSocket() client: Socket) {
+  async handleMessage(@MessageBody() message: MessageDto, @ConnectedSocket() client: Socket) {
     if (!message.content && !message.attachment) return;
+
+    const createdMessage = await this.messageService.create(message);
+    if (!createdMessage) return;
 
     client.broadcast.emit(SocketEvent.MESSAGE_RECEIVE, message);
     client.emit(SocketEvent.MESSAGE_RECEIVE, message);

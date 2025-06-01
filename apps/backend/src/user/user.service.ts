@@ -1,22 +1,27 @@
+import { UserDto } from '@cha-cha-chat/dto';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { User } from 'generated/prisma';
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async create(user: User) {
+  async create(user: UserDto) {
     return await this.prisma.user.create({
-      data: user,
+      data: {
+        username: user.username,
+        joinedAt: new Date(user.joinedAt),
+      },
     });
   }
 
   async exists(username: string) {
-    return await this.prisma.user.count({
-      where: {
-        username: username,
-      },
-    });
+    return (
+      (await this.prisma.user.count({
+        where: {
+          username: username,
+        },
+      })) > 0
+    );
   }
 }
