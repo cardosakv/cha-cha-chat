@@ -8,10 +8,9 @@ import {
   SubscribeMessage,
   WebSocketGateway,
 } from '@nestjs/websockets';
-import { User } from 'generated/prisma';
 import { Socket } from 'socket.io';
-import { UserService } from '../user/user.service';
 import { MessageService } from 'src/message/message.service';
+import { UserService } from '../user/user.service';
 
 /**
  * Websocket gateway for the chat.
@@ -21,8 +20,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly online = new Set<string>();
 
   constructor(
-    private userService: UserService,
-    private messageService: MessageService,
+    private readonly userService: UserService,
+    private readonly messageService: MessageService,
   ) {}
 
   /**
