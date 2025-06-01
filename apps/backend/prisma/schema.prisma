@@ -13,6 +13,8 @@ model User {
   joinedAt DateTime
 
   messages Message[]
+
+  @@map("user")
 }
 
 model Message {
@@ -24,10 +26,14 @@ model Message {
 
   user       User        @relation(fields: [username], references: [username])
   attachment Attachment? @relation(fields: [attachmentId], references: [attachmentId])
+
+  @@map("message")
 }
 
 model Attachment {
   attachmentId Int      @id @default(autoincrement())
   content      Bytes
   Message      Message?
+
+  @@map("attachment")
 }

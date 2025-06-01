@@ -1,4 +1,4 @@
-import { MessageDto, UserJoinDto, UserOnlineOfflineDto, UsersOnlineDto } from '@cha-cha-chat/dto';
+import { MessageDto, UserDto, UserJoinDto, UserOnlineOfflineDto, UsersOnlineDto } from '@cha-cha-chat/dto';
 import { SocketEvent } from '@cha-cha-chat/types';
 import {
   ConnectedSocket,
@@ -9,6 +9,8 @@ import {
   WebSocketGateway,
 } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
+import { MessageService } from 'src/message/message.service';
+import { UserService } from '../user/user.service';
 
 /**
  * Websocket gateway for the chat.
@@ -17,12 +19,29 @@ import { Socket } from 'socket.io';
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly online = new Set<string>();
 
+  constructor(
+    private readonly userService: UserService,
+    private readonly messageService: MessageService,
+  ) {}
+
   /**
    * Handles when user connects to the chat.
    */
-  handleConnection(client: Socket) {
+  async handleConnection(client: Socket) {
     const username = client.handshake.query.username as string;
     if (!username) return client.disconnect();
+
+    const userExists = await this.userService.exists(username);
+
+    if (!userExists) {
+      const user: UserDto = {
+        username: username,
+        joinedAt: Date.now(),
+      };
+
+      const createdUser = await this.userService.create(user);
+      if (!createdUser) return client.disconnect();
+    }
 
     this.online.add(username);
 
@@ -53,8 +72,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
    * Handles when user sends a message in the chat.
    */
   @SubscribeMessage(SocketEvent.MESSAGE_SEND)
-  handleMessage(@MessageBody() message: MessageDto, @ConnectedSocket() client: Socket) {
+  async handleMessage(@MessageBody() message: MessageDto, @ConnectedSocket() client: Socket) {
     if (!message.content && !message.attachment) return;
+
+    const createdMessage = await this.messageService.create(message);
+    if (!createdMessage) return;
 
     client.broadcast.emit(SocketEvent.MESSAGE_RECEIVE, message);
     client.emit(SocketEvent.MESSAGE_RECEIVE, message);

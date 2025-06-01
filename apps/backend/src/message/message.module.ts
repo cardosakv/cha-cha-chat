@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AttachmentModule } from './attachment/attachment.module';
+import { MessageService } from './message.service';
+import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
-  imports: [AttachmentModule],
+  providers: [MessageService],
+  exports: [MessageService],
+  imports: [PrismaModule],
 })
 export class MessageModule {}
