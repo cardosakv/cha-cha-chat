@@ -8,7 +8,9 @@ import {
   SubscribeMessage,
   WebSocketGateway,
 } from '@nestjs/websockets';
+import { User } from 'generated/prisma';
 import { Socket } from 'socket.io';
+import { UserService } from '../user/user.service';
 
 /**
  * Websocket gateway for the chat.
@@ -17,12 +19,26 @@ import { Socket } from 'socket.io';
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly online = new Set<string>();
 
+  constructor(private userService: UserService) {}
+
   /**
    * Handles when user connects to the chat.
    */
-  handleConnection(client: Socket) {
+  async handleConnection(client: Socket) {
     const username = client.handshake.query.username as string;
     if (!username) return client.disconnect();
+
+    const userExists = await this.userService.exists(username);
+
+    if (!userExists) {
+      const createUser: User = {
+        username: username,
+        joinedAt: new Date(),
+      };
+
+      const createdUser = await this.userService.create(createUser);
+      if (!createdUser) return client.disconnect();
+    }
 
     this.online.add(username);
 
