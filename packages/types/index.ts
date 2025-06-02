@@ -5,4 +5,5 @@ export const enum SocketEvent {
   USERS_ONLINE = "users.online",
   USER_OFFLINE = "user.offline",
   USER_JOIN = "user.join",
+  FEED_GET = "feed.get",
 }

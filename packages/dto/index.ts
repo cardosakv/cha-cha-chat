@@ -22,3 +22,8 @@ export interface UserJoinDto {
   username: string;
   timestamp: number;
 }
+
+export interface ChatEventDto {
+  type: "message" | "user-join";
+  data: MessageDto | UserJoinDto;
+}

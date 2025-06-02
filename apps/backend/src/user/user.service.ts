@@ -24,4 +24,15 @@ export class UserService {
       })) > 0
     );
   }
+
+  async getJoinedWithin(startTimestamp: number, endTimestamp: number) {
+    return await this.prisma.user.findMany({
+      where: {
+        joinedAt: {
+          gte: new Date(startTimestamp),
+          lte: new Date(endTimestamp),
+        },
+      },
+    });
+  }
 }
