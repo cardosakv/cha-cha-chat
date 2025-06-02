@@ -6,4 +6,5 @@ export const enum SocketEvent {
   USER_OFFLINE = "user.offline",
   USER_JOIN = "user.join",
   FEED_GET = "feed.get",
+  FEED_RECEIVE = "feed.receive",
 }

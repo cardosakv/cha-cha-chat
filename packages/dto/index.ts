@@ -1,4 +1,5 @@
 export interface MessageDto {
+  id?: number;
   username: string;
   content?: string;
   timestamp: number;
@@ -26,4 +27,8 @@ export interface UserJoinDto {
 export interface ChatEventDto {
   type: "message" | "user-join";
   data: MessageDto | UserJoinDto;
+}
+
+export interface GetFeedDto {
+  lastMessageId: number;
 }

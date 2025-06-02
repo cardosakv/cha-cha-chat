@@ -25,9 +25,9 @@ export const useSocket = (url: string) => {
     }
   }
 
-  function emit(event: SocketEvent, message: MessageDto | UserOnlineOfflineDto) {
+  function emit(event: SocketEvent, data: any) {
     try {
-      socket.value?.emit(event, message);
+      socket.value?.emit(event, data);
       return true;
     } catch (err) {
       console.error(err);

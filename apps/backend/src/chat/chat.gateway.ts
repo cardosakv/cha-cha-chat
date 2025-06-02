@@ -1,5 +1,6 @@
 import {
   ChatEventDto,
+  GetFeedDto,
   MessageDto,
   UserDto,
   UserJoinDto,
@@ -75,7 +76,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     // Get chat feed
     const recentChatFeed = await this.chatService.getFeed(MESSAGE_FEED_LIMIT);
-    client.emit(SocketEvent.FEED_GET, recentChatFeed);
+    client.emit(SocketEvent.FEED_RECEIVE, recentChatFeed);
   }
 
   /**
@@ -104,10 +105,25 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     const messageChatEvent: ChatEventDto = {
       type: 'message',
-      data: message,
+      data: {
+        id: createdMessage.messageId,
+        username: message.username,
+        content: message.content,
+        attachment: message.attachment ?? '',
+        timestamp: message.timestamp,
+      },
     };
 
     client.broadcast.emit(SocketEvent.MESSAGE_RECEIVE, messageChatEvent);
     client.emit(SocketEvent.MESSAGE_RECEIVE, messageChatEvent);
+  }
+
+  /**
+   * Handles retrieval of new messages in chat.
+   */
+  @SubscribeMessage(SocketEvent.FEED_GET)
+  async handleGetFeed(@MessageBody() query: GetFeedDto, @ConnectedSocket() client: Socket) {
+    const chatFeed = await this.chatService.getFeed(MESSAGE_FEED_LIMIT, query.lastMessageId);
+    client.emit(SocketEvent.FEED_RECEIVE, chatFeed);
   }
 }

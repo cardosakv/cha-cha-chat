@@ -13,6 +13,8 @@ const currentUser = useCookie(KEY_USERNAME);
 const onlineUsers = ref<string[]>();
 const chatEvents = ref<ChatEventDto[]>([]);
 
+const chatContainer = useTemplateRef("chatContainer");
+
 function sendMessageText(inputMessage: string) {
   const message: MessageDto = {
     username: currentUser.value ?? "",
@@ -78,8 +80,9 @@ function shouldShowTimeDivider(index: number): boolean {
 }
 
 function setupSocketEvents() {
-  socket.on(SocketEvent.FEED_GET, (data: ChatEventDto[]) => {
-    chatEvents.value = data;
+  socket.on(SocketEvent.FEED_RECEIVE, (data: ChatEventDto[]) => {
+    console.log(data);
+    chatEvents.value.push(...data);
   });
 
   socket.on(SocketEvent.USERS_ONLINE, (data: UsersOnlineDto) => {
@@ -115,9 +118,25 @@ function connectSocket() {
   socket.connect(userJoin);
 }
 
+function addScrollEvent() {
+  chatContainer.value?.addEventListener("scroll", () => {
+    if (!chatContainer.value) return;
+
+    const threshold = chatContainer.value.scrollTop * -1;
+    const maxScroll = chatContainer.value.scrollHeight - chatContainer.value.clientHeight - 5;
+
+    if (threshold >= maxScroll) {
+      const messages = chatEvents.value?.filter((e) => e.type == "message");
+      const lastMessageId = Math.min(...messages.map((e) => (e.data as MessageDto).id ?? 0));
+      socket.emit(SocketEvent.FEED_GET, { lastMessageId: lastMessageId });
+    }
+  });
+}
+
 onMounted(() => {
   connectSocket();
   setupSocketEvents();
+  addScrollEvent();
 });
 </script>
 
@@ -125,7 +144,10 @@ onMounted(() => {
   <NuxtLayout name="chat">
     <template #main>
       <div class="flex min-h-0 flex-1 flex-col pb-5">
-        <div class="custom-scroll flex flex-1 flex-col-reverse items-center justify-start gap-2 overflow-y-scroll pr-2">
+        <div
+          class="custom-scroll flex flex-1 flex-col-reverse items-center justify-start gap-2 overflow-y-scroll pr-2"
+          ref="chatContainer"
+        >
           <template v-for="(chatEvent, index) in chatEvents">
             <ChatMessage
               v-if="chatEvent.type == 'message'"

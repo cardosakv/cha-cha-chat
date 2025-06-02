@@ -26,6 +26,7 @@ export class ChatService {
 
     messages.forEach((message) => {
       const messageEvent: MessageDto = {
+        id: message.messageId,
         username: message.username,
         content: message.content ?? '',
         attachment: message.attachment ? uint8ArrayToDataUrl(message.attachment.content) : '',
