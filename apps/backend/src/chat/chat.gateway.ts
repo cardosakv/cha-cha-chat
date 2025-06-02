@@ -1,4 +1,4 @@
-import { MessageDto, UserDto, UserJoinDto, UserOnlineOfflineDto, UsersOnlineDto } from '@cha-cha-chat/dto';
+import { ChatEventDto, GetFeedDto, MessageDto, UserDto, UserOnlineOfflineDto, UsersOnlineDto } from '@cha-cha-chat/dto';
 import { SocketEvent } from '@cha-cha-chat/types';
 import {
   ConnectedSocket,
@@ -9,8 +9,10 @@ import {
   WebSocketGateway,
 } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
-import { MessageService } from 'src/message/message.service';
+import { MessageService } from '../message/message.service';
 import { UserService } from '../user/user.service';
+import { MESSAGE_FEED_LIMIT } from '../utils/constants';
+import { ChatService } from './chat.service';
 
 /**
  * Websocket gateway for the chat.
@@ -22,6 +24,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(
     private readonly userService: UserService,
     private readonly messageService: MessageService,
+    private readonly chatService: ChatService,
   ) {}
 
   /**
@@ -41,6 +44,16 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
       const createdUser = await this.userService.create(user);
       if (!createdUser) return client.disconnect();
+
+      const userJoinChatEvent: ChatEventDto = {
+        type: 'user-join',
+        data: {
+          username: user.username,
+          timestamp: user.joinedAt,
+        },
+      };
+
+      client.broadcast.emit(SocketEvent.USER_JOIN, userJoinChatEvent);
     }
 
     this.online.add(username);
@@ -52,6 +65,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     // Inform client of all online users
     const usersOnline: UsersOnlineDto = { usernames: [...this.online].filter((user) => user != username) };
     client.emit(SocketEvent.USERS_ONLINE, usersOnline);
+
+    // Get chat feed
+    const recentChatFeed = await this.chatService.getFeed(MESSAGE_FEED_LIMIT);
+    client.emit(SocketEvent.FEED_RECEIVE, recentChatFeed);
   }
 
   /**
@@ -78,18 +95,27 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const createdMessage = await this.messageService.create(message);
     if (!createdMessage) return;
 
-    client.broadcast.emit(SocketEvent.MESSAGE_RECEIVE, message);
-    client.emit(SocketEvent.MESSAGE_RECEIVE, message);
+    const messageChatEvent: ChatEventDto = {
+      type: 'message',
+      data: {
+        id: createdMessage.messageId,
+        username: message.username,
+        content: message.content,
+        attachment: message.attachment ?? '',
+        timestamp: message.timestamp,
+      },
+    };
+
+    client.broadcast.emit(SocketEvent.MESSAGE_RECEIVE, messageChatEvent);
+    client.emit(SocketEvent.MESSAGE_RECEIVE, messageChatEvent);
   }
 
   /**
-   * Handles when a user joins the chat.
+   * Handles retrieval of new messages in chat.
    */
-  @SubscribeMessage(SocketEvent.USER_JOIN)
-  handleUserJoin(@MessageBody() user: UserJoinDto, @ConnectedSocket() client: Socket) {
-    if (!user) return;
-    if (!user.username) return;
-
-    client.broadcast.emit(SocketEvent.USER_JOIN, user);
+  @SubscribeMessage(SocketEvent.FEED_GET)
+  async handleGetFeed(@MessageBody() query: GetFeedDto, @ConnectedSocket() client: Socket) {
+    const chatFeed = await this.chatService.getFeed(MESSAGE_FEED_LIMIT, query.lastMessageId);
+    client.emit(SocketEvent.FEED_RECEIVE, chatFeed);
   }
 }
