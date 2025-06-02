@@ -1,6 +1,5 @@
-import { io, Socket } from "socket.io-client";
-import type { MessageDto, UserOnlineOfflineDto } from "@cha-cha-chat/dto";
 import type { SocketEvent } from "@cha-cha-chat/types";
+import { io, Socket } from "socket.io-client";
 
 export const useSocket = (url: string) => {
   const socket = ref<Socket>();
