@@ -1,12 +1,22 @@
 <script setup lang="ts">
 import multiavatar from "@multiavatar/multiavatar/esm";
 import { KEY_USERNAME } from "~/shared/constants";
+import validateUsername from "~/utils/validate-username";
 
 useHead({ title: "Welcome to Cha-Cha-Chat" });
 definePageMeta({ middleware: "auth" });
 
 const inputUsername = ref("");
+const errorMessage = ref("");
 const avatarSvg = computed(() => multiavatar(inputUsername.value));
+
+async function handleRegisterClick() {
+  errorMessage.value = await validateUsername(inputUsername.value);
+
+  if (!errorMessage.value) {
+    registerUser();
+  }
+}
 
 function registerUser() {
   const username = useCookie(KEY_USERNAME);
@@ -38,8 +48,13 @@ function registerUser() {
 
       <div class="flex flex-col items-center">
         <p class="text-grey-light mb-4 text-sm">Got something to say? Type a username and jump in.</p>
-        <LandingInput class="mb-4 w-3/4" v-model="inputUsername" @key-enter="registerUser" />
-        <LandingButton class="w-3/4" label="Join the Chat" @click="registerUser" ref="joinButton" />
+        <LandingInput
+          class="mb-4 w-3/4"
+          v-model="inputUsername"
+          :error="errorMessage"
+          @key-enter="handleRegisterClick"
+        />
+        <LandingButton class="w-3/4" label="Join the Chat" @click="handleRegisterClick" ref="joinButton" />
       </div>
     </div>
   </NuxtLayout>
