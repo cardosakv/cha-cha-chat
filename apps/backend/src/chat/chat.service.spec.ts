@@ -112,7 +112,7 @@ describe('ChatService', () => {
     const result = await chatService.getFeed(limit);
 
     expect(messageServiceMock.getRecent).toHaveBeenCalledWith(limit, undefined);
-    expect(userServiceMock.getJoinedWithin).toHaveBeenCalledWith(1620000000000, 1620000000100);
+    expect(userServiceMock.getJoinedWithin).toHaveBeenCalledWith(1620000000050, 1620000000200);
     expect(result).toEqual(feed);
   });
 
