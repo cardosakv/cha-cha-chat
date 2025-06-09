@@ -1,4 +1,4 @@
-name: Nuxt Test
+name: Nest Test
 
 on:
   push:
