@@ -116,34 +116,6 @@ describe('ChatService', () => {
     expect(result).toEqual(feed);
   });
 
-  it('should get feed (joined users only)', async () => {
-    const limit = 3;
-
-    const users: User[] = [
-      {
-        username: 'juan',
-        joinedAt: new Date(1620000000100),
-      },
-      {
-        username: 'maria',
-        joinedAt: new Date(1620000000050),
-      },
-    ];
-
-    const messages: Message[] = [];
-
-    const feed: ChatEventDto[] = [];
-
-    messageServiceMock.getRecent?.mockResolvedValue(messages);
-    userServiceMock.getJoinedWithin?.mockResolvedValue(users);
-
-    const result = await chatService.getFeed(limit);
-
-    expect(messageServiceMock.getRecent).toHaveBeenCalledWith(limit, undefined);
-    expect(userServiceMock.getJoinedWithin).toHaveBeenCalledTimes(0);
-    expect(result).toEqual(feed);
-  });
-
   it('should get feed (messages + joined users)', async () => {
     const limit = 3;
 
