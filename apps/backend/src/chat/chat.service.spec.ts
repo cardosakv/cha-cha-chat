@@ -52,21 +52,21 @@ describe('ChatService', () => {
     const messages: Message[] = [
       {
         messageId: 3,
-        username: 'juan',
+        username: 'arnold',
         content: 'hello',
         timestamp: new Date(1620000000100),
         attachmentId: null,
       },
       {
         messageId: 2,
-        username: 'maria',
+        username: 'nika',
         content: 'hi',
         timestamp: new Date(1620000000050),
         attachmentId: null,
       },
       {
         messageId: 1,
-        username: 'juan',
+        username: 'arnold',
         content: 'welcome',
         timestamp: new Date(1620000000000),
         attachmentId: null,
@@ -78,7 +78,7 @@ describe('ChatService', () => {
         type: 'message',
         data: {
           id: 3,
-          username: 'juan',
+          username: 'arnold',
           content: 'hello',
           timestamp: 1620000000100,
           attachment: '',
@@ -88,7 +88,7 @@ describe('ChatService', () => {
         type: 'message',
         data: {
           id: 2,
-          username: 'maria',
+          username: 'nika',
           content: 'hi',
           timestamp: 1620000000050,
           attachment: '',
@@ -98,7 +98,7 @@ describe('ChatService', () => {
         type: 'message',
         data: {
           id: 1,
-          username: 'juan',
+          username: 'arnold',
           content: 'welcome',
           timestamp: 1620000000000,
           attachment: '',
