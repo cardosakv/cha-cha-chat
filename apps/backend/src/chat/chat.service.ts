@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { MessageService } from '../message/message.service';
 import { UserService } from '../user/user.service';
 import { ChatEventDto, MessageDto, UserJoinDto } from '@cha-cha-chat/dto';
-import { uint8ArrayToDataUrl } from 'src/utils/common';
+import { uint8ArrayToDataUrl } from '../utils/common';
 
 @Injectable()
 export class ChatService {
