@@ -40,12 +40,8 @@ describe('MessageService', () => {
     }).compile();
 
     service = module.get<MessageService>(MessageService);
-  });
 
-  afterEach(() => {
-    prismaMock.message.create.mockReset();
-    prismaMock.message.findMany.mockReset();
-    prismaMock.attachment.create.mockReset();
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {

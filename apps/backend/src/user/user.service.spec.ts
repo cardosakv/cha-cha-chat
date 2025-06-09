@@ -27,12 +27,8 @@ describe('UserService', () => {
     }).compile();
 
     service = module.get<UserService>(UserService);
-  });
 
-  afterEach(() => {
-    prismaMock.user.create.mockReset();
-    prismaMock.user.count.mockReset();
-    prismaMock.user.findMany.mockReset();
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {

@@ -36,11 +36,8 @@ describe('ChatService', () => {
     }).compile();
 
     chatService = module.get<ChatService>(ChatService);
-  });
 
-  afterEach(() => {
-    messageServiceMock.getRecent?.mockReset();
-    userServiceMock.getJoinedWithin?.mockReset();
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
