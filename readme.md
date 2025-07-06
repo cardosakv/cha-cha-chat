@@ -40,7 +40,6 @@ This repo is structured as a Turborepo monorepo using `pnpm` workspaces.
 - [Node.js](https://nodejs.org/en/) (v18+ recommended)
 - [pnpm](https://pnpm.io/) (`npm install -g pnpm`)
 - A PostgreSQL instance (local or cloud)
-- Vercel (for deployment, optional)
 
 ### 1. Clone the repository
 
