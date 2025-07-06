@@ -2,7 +2,7 @@
 
 **Cha-Cha-Chat** is public chat where everyone's invited to chill and chit-chat. It is a real-time web chat application using websockets built for learning.
 
-> 🌐 Try it live: [cha-cha-chat.site](https://cha-cha-chat.site)
+> 🌐 Try it live: [chachachat.site](https://chachachat.site)
 
 ## 🛠️ Tech Stack
 
