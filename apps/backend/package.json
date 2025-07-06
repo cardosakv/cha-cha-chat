@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "postinstall": "npx prisma generate",
     "start": "nest start",
     "dev": "nest start --watch",
     "build": "nest build",
