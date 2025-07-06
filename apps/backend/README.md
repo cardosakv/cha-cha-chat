@@ -1,4 +1,4 @@
-# Frontend – Cha-Cha-Chat
+# Backend – Cha-Cha-Chat
 
 This is the backend for **Cha-Cha-Chat**, a modern real-time chat application made as a practice and learning experience.
 
