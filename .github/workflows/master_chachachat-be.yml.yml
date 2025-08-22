@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: chachachat_be_app
-          path: apps/backend/dist
+          path: apps/backend
           overwrite: true
 
   deploy:
