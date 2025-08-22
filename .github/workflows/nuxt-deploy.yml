@@ -23,6 +23,7 @@ jobs:
           path: |
             apps/frontend
             packages
+            package.json
 
   deploy:
     runs-on: ubuntu-latest
