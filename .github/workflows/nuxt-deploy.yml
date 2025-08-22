@@ -33,9 +33,6 @@ jobs:
         working-directory: apps/frontend
         run: pnpm build
 
-      - name: Debug build output
-        run: ls -R apps/frontend/.output
-
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
@@ -53,8 +50,6 @@ jobs:
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
-        with:
-          name: chachachat_fe_app
 
       - name: Login to Azure
         uses: azure/login@v2

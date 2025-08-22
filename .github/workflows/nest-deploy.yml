@@ -52,8 +52,6 @@ jobs:
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
-        with:
-          name: chachachat_be_app
 
       - name: Login to Azure
         uses: azure/login@v2
