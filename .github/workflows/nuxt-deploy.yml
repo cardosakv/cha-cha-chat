@@ -36,7 +36,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: apps/frontend/.output
+          path: |
+            apps/frontend/.output/
 
   deploy:
     runs-on: ubuntu-latest
