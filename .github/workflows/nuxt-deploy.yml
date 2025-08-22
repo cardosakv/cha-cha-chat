@@ -36,7 +36,7 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: chachachat-fe-app
+          name: chachachat_fe_app
           path: apps/frontend/.output
           overwrite: true
 
@@ -51,7 +51,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: chachachat-fe-app
+          name: chachachat_fe_app
 
       - name: Login to Azure
         uses: azure/login@v2
