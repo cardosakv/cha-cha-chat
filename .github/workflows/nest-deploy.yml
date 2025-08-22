@@ -21,7 +21,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: apps/backend
-        run: pnpm install --production --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build app
         working-directory: apps/backend
