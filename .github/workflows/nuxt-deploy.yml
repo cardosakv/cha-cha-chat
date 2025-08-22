@@ -24,7 +24,7 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          path: .
+          path: ./apps/backend
 
   deploy:
     runs-on: ubuntu-latest
