@@ -25,6 +25,7 @@ jobs:
             packages
             package.json
             pnpm-workspace.yaml
+            pnpm-lock.yaml
 
   deploy:
     runs-on: ubuntu-latest
