@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "postinstall": "npx prisma generate",
-    "start": "nest start",
+    "start": "node dist/main.js",
     "dev": "nest start --watch",
     "build": "nest build",
     "format": "prettier --write \"src\"",

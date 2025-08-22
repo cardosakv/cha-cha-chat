@@ -8,6 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "start": "node .output/server/index.mjs",
     "lint": "eslint .",
     "format": "prettier --write \"{components,pages,plugins,middleware,layouts,composables,assets}/**/*.{js,jsx,ts,tsx,vue,html,css,scss,json,md}\"",
     "test": "vitest"
