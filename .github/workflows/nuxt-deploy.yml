@@ -12,28 +12,17 @@ jobs:
     permissions:
       contents: read
 
-    defaults:
-      run:
-        working-directory: apps/frontend
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Build app
-        run: pnpm build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: apps/frontend
+          path: |
+            apps/frontend
+            packages
 
   deploy:
     runs-on: ubuntu-latest
