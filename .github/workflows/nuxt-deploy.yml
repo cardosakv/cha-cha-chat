@@ -24,6 +24,7 @@ jobs:
             apps/frontend
             packages
             package.json
+            pnpm-workspace.yaml
 
   deploy:
     runs-on: ubuntu-latest
