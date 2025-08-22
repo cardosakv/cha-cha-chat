@@ -1,6 +1,3 @@
-# Clear output directory
-find /home/site/wwwroot -mindepth 1 ! -name start.sh -exec rm -rf {} +
-
 # Install local pnpm
 npm install -D pnpm
 
