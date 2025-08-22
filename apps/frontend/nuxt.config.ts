@@ -18,5 +18,8 @@ export default defineNuxtConfig({
   },
   experimental: {
     appManifest: false
+  },
+  devServer: {
+    port: process.env.PORT ? Number(process.env.PORT) : 3000
   }
 });
