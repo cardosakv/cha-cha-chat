@@ -20,12 +20,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: |
-            apps/backend
-            packages
-            package.json
-            pnpm-workspace.yaml
-            pnpm-lock.yaml
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
