@@ -28,6 +28,7 @@ jobs:
         run: pnpm install --filter @cha-cha-chat/backend
 
       - name: Generate Prisma client
+        working-directory: apps/backend
         run: npx prisma generate --schema=apps/backend/prisma/schema.prisma
 
       - name: Build app
