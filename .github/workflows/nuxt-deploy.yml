@@ -16,26 +16,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
       - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "22"
-          cache: "pnpm"
-
       - name: Install dependencies
-        working-directory: apps/frontend
-        run: pnpm install
+        run: pnpm install --filter @cha-cha-chat/frontend
 
       - name: Build app
-        working-directory: apps/frontend
-        run: pnpm build
+        run: pnpm build --filter @cha-cha-chat/frontend
 
-      - name: Zip artifact for upload
-        working-directory: apps/frontend
-        run: zip -r ../../frontend-build.zip . -x ".git/*"
+      - name: Zip build output
+        run: |
+          cd apps/frontend
+          zip -r ../../frontend-build.zip .output package.json
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -55,6 +53,26 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: frontend-build
+          path: deploy
+
+      - name: Unzip build output
+        run: unzip -o deploy/frontend-build.zip -d deploy
+
+      - name: Remove zip file
+        run: rm deploy/frontend-build.zip
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: |
+          cd deploy/.output
+          pnpm install --filter @cha-cha-chat/frontend-prod
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
@@ -62,4 +80,4 @@ jobs:
           app-name: "chachachat-fe"
           slot-name: "Production"
           publish-profile: ${{ secrets.AZURE_FRONTEND_PUBLISH_PROFILE }}
-          package: frontend-build.zip
+          package: deploy
