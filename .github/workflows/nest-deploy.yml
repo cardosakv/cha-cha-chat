@@ -58,6 +58,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: backend-build
+          path: deploy
 
       - name: Unzip build output
         run: unzip -o deploy/backend-build.zip -d deploy
