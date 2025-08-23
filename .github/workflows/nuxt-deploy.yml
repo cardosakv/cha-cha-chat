@@ -33,11 +33,14 @@ jobs:
       - name: Debug build folder
         run: find apps/frontend/.output -type f
 
+      - name: Zip build output
+        run: zip -r frontend-build.zip apps/frontend/.output
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: frontend-build
-          path: "apps/frontend/.output"
+          path: frontend-build.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -52,6 +55,12 @@ jobs:
         with:
           name: frontend-build
           path: deploy
+
+      - name: Unzip build output
+        run: unzip -o deploy/frontend-build.zip -d deploy
+
+      - name: Remove zip file
+        run: rm deploy/frontend-build.zip
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
