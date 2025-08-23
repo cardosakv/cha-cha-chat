@@ -25,18 +25,15 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install dependencies
-        run: pnpm install --filter cha-cha-chat-fe
+        run: pnpm install --filter @cha-cha-chat/frontend
 
       - name: Build app
-        run: pnpm build --filter cha-cha-chat-fe
-
-      - name: Debug build folder
-        run: find apps/frontend/.output -type f
+        run: pnpm build --filter @cha-cha-chat/frontend
 
       - name: Zip build output
         run: |
           cd apps/frontend
-          zip -r ../../frontend-build.zip .output
+          zip -r ../../frontend-build.zip .output package.json pnpm-lock.yaml pnpm-workspace.yaml
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -64,23 +61,10 @@ jobs:
       - name: Remove zip file
         run: rm deploy/frontend-build.zip
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 22
-
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      - name: Install dependencies
-        run: |
-          cd deploy/.output
-          pnpm install --filter cha-cha-chat-fe-prod
-
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: "chachachat-fe"
           slot-name: "Production"
           publish-profile: ${{ secrets.AZURE_FRONTEND_PUBLISH_PROFILE }}
-          package: deploy/.output
+          package: deploy

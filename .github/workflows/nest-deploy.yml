@@ -25,18 +25,18 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install dependencies
-        run: pnpm install --filter cha-cha-chat-be --shamefully-hoist
+        run: pnpm install --filter @cha-cha-chat/backend
 
       - name: Generate Prisma client
         run: npx prisma generate --schema=apps/backend/prisma/schema.prisma
 
       - name: Build app
-        run: pnpm build --filter cha-cha-chat-be
+        run: pnpm build --filter @cha-cha-chat/backend
 
       - name: Zip build output
         run: |
           cd apps/backend
-          zip -r ../../backend-build.zip dist node_modules generated
+          zip -r ../../backend-build.zip dist generated package.json pnpm-lock.yaml pnpm-workspace.yaml
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
