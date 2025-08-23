@@ -25,17 +25,19 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install dependencies
-        working-directory: apps/frontend
-        run: pnpm install
+        run: pnpm install --filter cha-cha-chat-fe
 
       - name: Build app
-        working-directory: apps/frontend
-        run: pnpm build
+        run: pnpm build --filter cha-cha-chat-fe
+
+      - name: List build output
+        run: ls -la apps/frontend/.output
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          path: apps/frontend/.output/
+          name: frontend-build
+          path: apps/frontend/.output
 
   deploy:
     runs-on: ubuntu-latest
@@ -47,6 +49,9 @@ jobs:
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
+        with:
+          name: frontend-build
+          path: deploy
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
@@ -54,4 +59,4 @@ jobs:
           app-name: "chachachat-fe"
           slot-name: "Production"
           publish-profile: ${{ secrets.AZURE_FRONTEND_PUBLISH_PROFILE }}
-          package: .
+          package: deploy
