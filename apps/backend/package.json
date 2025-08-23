@@ -13,8 +13,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@cha-cha-chat/dto": "workspace:*",
-    "@cha-cha-chat/types": "workspace:*",
+    "@cha-cha-chat/dto": "^1.0.0",
+    "@cha-cha-chat/types": "^1.0.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",

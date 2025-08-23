@@ -14,8 +14,8 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@cha-cha-chat/dto": "workspace:*",
-    "@cha-cha-chat/types": "workspace:*",
+    "@cha-cha-chat/dto": "^1.0.0",
+    "@cha-cha-chat/types": "^1.0.0",
     "@multiavatar/multiavatar": "^1.0.7",
     "@nuxt/test-utils": "^3.19.1",
     "@vue/test-utils": "^2.4.6",
