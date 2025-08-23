@@ -30,8 +30,8 @@ jobs:
       - name: Build app
         run: pnpm build --filter cha-cha-chat-fe
 
-      - name: List build output
-        run: ls -la apps/frontend/.output
+      - name: Debug build folder
+        run: find apps/frontend/.output -type f
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
