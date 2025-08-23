@@ -70,4 +70,4 @@ jobs:
           app-name: "chachachat-fe"
           slot-name: "Production"
           publish-profile: ${{ secrets.AZURE_FRONTEND_PUBLISH_PROFILE }}
-          package: deploy
+          package: deploy/.output
