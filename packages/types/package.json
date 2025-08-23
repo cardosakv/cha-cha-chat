@@ -1,6 +1,16 @@
 {
   "name": "@cha-cha-chat/types",
   "version": "1.0.0",
+  "description": "Types for Cha-Cha-Chat project.",
+  "keywords": [
+    "types"
+  ],
+  "license": "MIT",
+  "author": "Khyle Vincent Cardosa",
+  "type": "commonjs",
   "main": "./index.ts",
-  "types": "./index.ts"
+  "types": "./index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }

@@ -1,6 +1,16 @@
 {
   "name": "@cha-cha-chat/dto",
   "version": "1.0.0",
+  "description": "DTOs for Cha-Cha-Chat project.",
+  "keywords": [
+    "dto"
+  ],
+  "license": "MIT",
+  "author": "Khyle Vincent Cardosa",
+  "type": "commonjs",
   "main": "./index.ts",
-  "types": "./index.ts"
+  "types": "./index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }
