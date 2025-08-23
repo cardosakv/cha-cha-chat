@@ -34,7 +34,9 @@ jobs:
         run: find apps/frontend/.output -type f
 
       - name: Zip build output
-        run: zip -r frontend-build.zip apps/frontend/.output
+        run: |
+          cd apps/frontend
+          zip -r ../../frontend-build.zip .output
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
