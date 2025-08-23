@@ -59,10 +59,16 @@ jobs:
         with:
           name: backend-build
 
+      - name: Unzip build output
+        run: unzip -o deploy/backend-build.zip -d deploy
+
+      - name: Remove zip file
+        run: rm deploy/backend-build.zip
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: "chachachat-be"
           slot-name: "Production"
           publish-profile: ${{ secrets.AZURE_BACKEND_PUBLISH_PROFILE }}
-          package: backend-build.zip
+          package: deploy/dist-ncc
