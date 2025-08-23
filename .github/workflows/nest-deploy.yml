@@ -16,11 +16,32 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        working-directory: apps/backend
+        run: pnpm install
+
+      - name: Build app
+        working-directory: apps/backend
+        run: pnpm build
+
+      - name: Zip artifact for upload
+        working-directory: apps/backend
+        run: zip -r ../../backend-build.zip . -x ".git/*"
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: backend-source
-          path: apps/backend
+          name: backend-build
+          path: backend-build.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -33,8 +54,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: backend-source
-          path: deploy
+          name: backend-build
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
@@ -42,4 +62,4 @@ jobs:
           app-name: "chachachat-be"
           slot-name: "Production"
           publish-profile: ${{ secrets.AZURE_BACKEND_PUBLISH_PROFILE }}
-          package: deploy
+          package: backend-build.zip
