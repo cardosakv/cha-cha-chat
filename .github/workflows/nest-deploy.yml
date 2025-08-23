@@ -16,15 +16,33 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install --filter cha-cha-chat-be --shamefully-hoist
+
+      - name: Generate Prisma client
+        run: npx prisma generate --schema=apps/backend/prisma/schema.prisma
+
+      - name: Build app
+        run: pnpm build --filter cha-cha-chat-be
+
+      - name: Zip build output
+        run: |
+          cd apps/backend
+          zip -r ../../backend-build.zip dist node_modules generated
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: node-app
-          path: |
-            apps/backend
-            packages
-            package.json
-            pnpm-workspace.yaml
+          name: backend-build
+          path: backend-build.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -37,7 +55,13 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: node-app
+          name: backend-build
+
+      - name: Unzip build output
+        run: unzip -o deploy/backend-build.zip -d deploy
+
+      - name: Remove zip file
+        run: rm deploy/backend-build.zip
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
@@ -45,4 +69,4 @@ jobs:
           app-name: "chachachat-be"
           slot-name: "Production"
           publish-profile: ${{ secrets.AZURE_BACKEND_PUBLISH_PROFILE }}
-          package: .
+          package: deploy
