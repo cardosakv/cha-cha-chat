@@ -33,7 +33,7 @@ jobs:
       - name: Zip build output
         run: |
           cd apps/frontend
-          zip -r ../../frontend-build.zip .output package.json
+          zip -r ../../frontend-build.zip .output
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -80,4 +80,4 @@ jobs:
           app-name: "chachachat-fe"
           slot-name: "Production"
           publish-profile: ${{ secrets.AZURE_FRONTEND_PUBLISH_PROFILE }}
-          package: deploy
+          package: deploy/.output
