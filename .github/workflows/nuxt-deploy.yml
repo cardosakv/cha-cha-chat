@@ -61,19 +61,6 @@ jobs:
       - name: Remove zip file
         run: rm deploy/frontend-build.zip
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 22
-
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      - name: Install dependencies
-        run: |
-          cd deploy/.output
-          pnpm install --filter @cha-cha-chat/frontend-prod
-
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
