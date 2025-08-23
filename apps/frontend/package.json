@@ -1,5 +1,5 @@
 {
-  "name": "cha-cha-chat-fe",
+  "name": "@cha-cha-chat/frontend",
   "type": "module",
   "private": true,
   "scripts": {
