@@ -54,21 +54,21 @@ Each app has its own `.env` file.
 #### For Backend (`/apps/backend/.env`)
 
 ```env
-PORT=your_backend_app_port
+PORT=your_backend_port
 DATABASE_URL=your_postgres_db_url
 ```
 
 #### For Frontend (`/apps/frontend/.env`)
 
 ```env
-NUXT_API_BASE_URL=your_backend_api_url
+PORT=your_frontend_port
+NUXT_PUBLIC_API_BASE_URL=your_backend_api_url
 ```
 
 ### 3. Setup the Database
 
 ```bash
 cd apps/backend
-npx prisma generate
 npx prisma migrate dev
 ```
 
@@ -79,5 +79,3 @@ In the root directory:
 ```bash
 pnpm dev
 ```
-
-This will start on localhost both frontend (port 3000) and backend (port in env or 3001 by default).
