@@ -1,4 +1,4 @@
-name: Nest Deploy to Azure
+name: Nuxt Deploy to Azure
 
 on:
   push:
